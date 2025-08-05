@@ -1,4 +1,4 @@
-function AP_histology
+ function AP_histology
 % Toolbar GUI for running histology pipeline
 
 % Set up the gui
@@ -56,13 +56,21 @@ uimenu(gui_data.menu.annotation,'Text','Neuropixels probes','MenuSelectedFcn', .
 gui_data.menu.view = uimenu(histology_toolbar_gui,'Text','View');
 uimenu(gui_data.menu.view,'Text','View aligned histology','MenuSelectedFcn', ...
     {@ap_histology.view_aligned_histology,histology_toolbar_gui});
+uimenu(gui_data.menu.view,'Text','View probe trajectory','MenuSelectedFcn', ...
+    {@ap_histology.view_probe_trajectory,histology_toolbar_gui});
 
 % Create GUI variables
 gui_data.image_path = char;
 gui_data.save_path = char;
 
+
+%%% For debug
+% gui_data.image_path = 'E:\Projects\brainslice\cFOS-harini\Benjie-Harini\8504D_sal\cFos only\';
+% gui_data.save_path = 'E:\Projects\brainslice\cFOS-harini\Benjie-Harini\8504D_sal\cFos only\processed_compress';
+
 % Store guidata
 guidata(histology_toolbar_gui,gui_data);
+
 
 % Update GUI text
 ap_histology.update_toolbar_gui(histology_toolbar_gui);
