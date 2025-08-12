@@ -45,6 +45,8 @@ if ~im_is_rgb
     
     n_channels = sum(any([im_info.Height;im_info.Width],1));
     im_resized = cell(n_im,n_channels);
+    disp(n_channels)
+    disp(im_resized)
     
     for curr_im = 1:n_im
         for curr_channel = 1:n_channels
@@ -119,7 +121,7 @@ elseif im_is_rgb
     % If images are already RGB, just load in and resize
     im_rgb = cell(n_im,1);
     for curr_im = 1:n_im
-        im_rgb{curr_im} = imresize(imread(im_fn{curr_im}),downsample_factor);
+        im_rgb{curr_im} = imresize(imread(im_fn{curr_im}),1/downsample_factor);
         waitbar(curr_im/n_im,h,['Loading and resizing images (' num2str(curr_im) '/' num2str(n_im) ')...']);
     end
     close(h)
