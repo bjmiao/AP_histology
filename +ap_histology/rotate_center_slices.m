@@ -47,6 +47,20 @@ for curr_im = 1:length(slice_im)
 end
 close(gui_fig);
 
+% save prep step to prep_replay
+operation.type = "rotate_center";
+operation.align_axis = align_axis;
+prep_replay_file = [histology_toolbar_guidata.save_path, '\preprocessing_replay.mat'];
+if exist(prep_replay_file, 'file') && isfield(load(prep_replay_file), 'store_replay_steps')
+    load(prep_replay_file, 'store_replay_steps')
+    store_replay_steps{end+1} = operation;
+    save(prep_replay_file, 'store_replay_steps');
+else
+    store_replay_steps{1} = operation;
+    save(prep_replay_file, 'store_replay_steps')
+end
+
+
 % Get angle for all axes
 align_angle = squeeze(atan2d(diff(align_axis(:,1,:),[],1),diff(align_axis(:,2,:),[],1)));
 align_center = permute(nanmean(align_axis,1),[2,3,1]);

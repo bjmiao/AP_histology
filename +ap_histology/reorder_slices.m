@@ -42,7 +42,8 @@ title(tile_h,'Click to assign/un-assign slice order','FontSize',12);
 gui_data = struct;
 
 gui_data.slice_fn = slice_fn;
-
+gui_data.image_path = histology_toolbar_guidata.image_path;
+gui_data.save_path = histology_toolbar_guidata.save_path;
 gui_data.image_h = image_h;
 gui_data.slice_idx = nan(length(slice_im),1);
 guidata(gui_fig,gui_data)
@@ -83,6 +84,21 @@ guidata(gui_fig,gui_data)
 % If all slices assigned, close and save
 if ~any(isnan(gui_data.slice_idx))
     close(gui_fig);
+
+    % save prep step to prep_replay
+    operation.type = "reorder_slices";
+    operation.slide_idx = gui_data.slice_idx;
+    prep_replay_file = [gui_data.save_path, '\preprocessing_replay.mat'];
+    if exist(prep_replay_file, 'file') && isfield(load(prep_replay_file), 'store_replay_steps')
+        load(prep_replay_file, 'store_replay_steps')
+        store_replay_steps{end+1} = operation;
+        save(prep_replay_file, 'store_replay_steps');
+    else
+        store_replay_steps{1} = operation;
+        save(prep_replay_file, 'store_replay_steps')
+    end
+
+
     save_reordered_slices(gui_data);
 end
 

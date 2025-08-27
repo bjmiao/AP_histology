@@ -43,7 +43,10 @@ gui_data.histology_im_h = image(gui_data.im{1}, ...
 gui_data.histology_ax_title = title(gui_data.histology_ax, ...
     {'Left/right: change slice', ...
     'Ctrl+arrows: flip'},'FontSize',12);
-
+% Create two arrays to store the flip operation
+gui_data.is_fliplr = false(1, length(slice_fn));
+gui_data.is_flipud = false(1, length(slice_fn));
+gui_data.save_path = histology_toolbar_guidata.save_path;
 % Upload gui data
 guidata(gui_fig,gui_data);
 
@@ -70,6 +73,7 @@ switch eventdata.Key
         elseif ctrl_on
             gui_data.im{gui_data.curr_slice} = ...
                 fliplr(gui_data.im{gui_data.curr_slice});
+            gui_data.is_fliplr(gui_data.curr_slice) = not(gui_data.is_fliplr(gui_data.curr_slice));
             set(gui_data.histology_im_h,'CData',gui_data.im{gui_data.curr_slice})
             guidata(gui_fig,gui_data);
         end
@@ -83,6 +87,7 @@ switch eventdata.Key
         elseif ctrl_on
             gui_data.im{gui_data.curr_slice} = ...
                 fliplr(gui_data.im{gui_data.curr_slice});
+            gui_data.is_fliplr(gui_data.curr_slice) = not(gui_data.is_fliplr(gui_data.curr_slice));
             set(gui_data.histology_im_h,'CData',gui_data.im{gui_data.curr_slice})
             guidata(gui_fig,gui_data);
         end
@@ -91,6 +96,7 @@ switch eventdata.Key
         if ctrl_on
             gui_data.im{gui_data.curr_slice} = ...
                 flipud(gui_data.im{gui_data.curr_slice});
+            gui_data.is_flipud(gui_data.curr_slice) = not(gui_data.is_flipud(gui_data.curr_slice));
             set(gui_data.histology_im_h,'CData',gui_data.im{gui_data.curr_slice})
             guidata(gui_fig,gui_data);
         end
@@ -114,6 +120,21 @@ switch user_confirm
         end
         disp('Saved flipped slice images');
         delete(gui_fig)
+
+        % save prep step to prep_replay
+        operation.type = "flip_slices";
+        operation.is_fliplr = gui_data.is_fliplr;
+        operation.is_flipud = gui_data.is_flipud;
+        prep_replay_file = [gui_data.save_path, '\preprocessing_replay.mat'];
+        if exist(prep_replay_file, 'file') && isfield(load(prep_replay_file), 'store_replay_steps')
+            load(prep_replay_file, 'store_replay_steps')
+            store_replay_steps{end+1} = operation;
+            save(prep_replay_file, 'store_replay_steps');
+        else
+            store_replay_steps{1} = operation;
+            save(prep_replay_file, 'store_replay_steps')
+        end
+
 
     case 'No'
         % Close without saving

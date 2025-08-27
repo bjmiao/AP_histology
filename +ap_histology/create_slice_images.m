@@ -165,6 +165,15 @@ elseif slice_images
     end
     disp('Done.');
 
+    % save to the preprocessing replay steps, clean the history if any
+    prep_replay_file = [histology_toolbar_guidata.save_path, '\preprocessing_replay.mat'];
+    operation.type = "create_slice_images";
+    operation.downsample_factor = downsample_factor;
+    operation.slice_images = slice_images;
+    store_replay_steps = {};
+    store_replay_steps{1} = operation;
+    save(prep_replay_file, 'store_replay_steps')
+
     % Update toolbar GUI
     ap_histology.update_toolbar_gui(histology_toolbar_gui);
 
