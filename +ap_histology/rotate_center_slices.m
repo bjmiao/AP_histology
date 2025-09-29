@@ -48,7 +48,7 @@ end
 close(gui_fig);
 
 % save prep step to prep_replay
-operation.type = "rotate_center";
+operation.type = 'rotate_center';
 operation.align_axis = align_axis;
 prep_replay_file = [histology_toolbar_guidata.save_path, '\preprocessing_replay.mat'];
 if exist(prep_replay_file, 'file') && isfield(load(prep_replay_file), 'store_replay_steps')
@@ -78,7 +78,6 @@ for curr_im = 1:length(slice_im)
     angle_diff = target_angle - align_angle(curr_im);
     x_diff = target_position(1) - align_center(1,curr_im);
     y_diff = target_position(2) - align_center(2,curr_im);
-    
     im_aligned(:,:,:,curr_im) = ...
         imrotate(imtranslate(slice_im_pad(:,:,:,curr_im), ...
         [x_diff,y_diff]),angle_diff,'bilinear','crop');

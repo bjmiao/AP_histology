@@ -122,7 +122,7 @@ switch user_confirm
         delete(gui_fig)
 
         % save prep step to prep_replay
-        operation.type = "flip_slices";
+        operation.type = 'flip_slices';
         operation.is_fliplr = gui_data.is_fliplr;
         operation.is_flipud = gui_data.is_flipud;
         prep_replay_file = [gui_data.save_path, '\preprocessing_replay.mat'];

@@ -86,7 +86,7 @@ if ~any(isnan(gui_data.slice_idx))
     close(gui_fig);
 
     % save prep step to prep_replay
-    operation.type = "reorder_slices";
+    operation.type = 'reorder_slices';
     operation.slide_idx = gui_data.slice_idx;
     prep_replay_file = [gui_data.save_path, '\preprocessing_replay.mat'];
     if exist(prep_replay_file, 'file') && isfield(load(prep_replay_file), 'store_replay_steps')

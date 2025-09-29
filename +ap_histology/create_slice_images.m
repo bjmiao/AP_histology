@@ -167,7 +167,7 @@ elseif slice_images
 
     % save to the preprocessing replay steps, clean the history if any
     prep_replay_file = [histology_toolbar_guidata.save_path, '\preprocessing_replay.mat'];
-    operation.type = "create_slice_images";
+    operation.type = 'create_slice_images';
     operation.downsample_factor = downsample_factor;
     operation.slice_images = slice_images;
     store_replay_steps = {};
