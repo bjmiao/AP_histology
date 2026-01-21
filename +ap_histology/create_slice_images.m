@@ -190,7 +190,6 @@ gui_data = guidata(slice_fig);
 if eventdata.Button == 1
     
     selected_slice_bw = bwselect(gui_data.mask,eventdata.IntersectionPoint(1),eventdata.IntersectionPoint(2));
-    
     % If the selected slice is already part of a user mask, delete that ROI
     if size(gui_data.user_masks,3) > 0
         clicked_mask = false(size(gui_data.mask));
@@ -208,6 +207,11 @@ if eventdata.Button == 1
             guidata(slice_fig, gui_data);
             return
         end
+    end
+    % Test whether user is clicking the tissue. Elsewise ingore this click
+    if sum(selected_slice_bw) == 0
+        warning("Click on the pixel without brain tissue. Ignoring")
+        return
     end
     
     % If left button pressed, create new slice ROI

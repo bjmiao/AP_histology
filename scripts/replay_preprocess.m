@@ -1,7 +1,7 @@
-replay_action_record_path = 'C:\Users\benji\Documents\harini\cFOS_pPDH_quantify\pipeline_test\slices_reference';
-image_path = 'C:\Users\benji\Documents\harini\cFOS_pPDH_quantify\pipeline_test';
-save_dir = 'C:\Users\benji\Documents\harini\cFOS_pPDH_quantify\pipeline_test\slices_replay';
-
+replay_action_record_path = 'C:\Users\benji\Documents\harini\8506C_ket\overlay\slices';
+image_path = 'C:\Users\benji\Documents\harini\8506C_ket\ppdh';
+save_dir = [image_path, '\slices_replay'];
+mkdir(save_dir);
 %% Load the image path and the replay file
 
 % Get and sort image files
@@ -150,7 +150,6 @@ function replay_flip_slices(save_dir, operation)
 
     for curr_im = 1:length(slice_fn)
        im = imread(slice_fn{curr_im});
-       disp(size(im));
        if is_fliplr(curr_im) im = fliplr(im); end
        if is_flipud(curr_im) im = flipud(im); end
        imwrite(im, slice_fn{curr_im});

@@ -64,9 +64,9 @@ gui_data.image_path = char;
 gui_data.save_path = char;
 
 
-%%% For debug
-% gui_data.image_path = 'E:\Projects\brainslice\cFOS-harini\Benjie-Harini\8504D_sal\cFos only\';
-% gui_data.save_path = 'E:\Projects\brainslice\cFOS-harini\Benjie-Harini\8504D_sal\cFos only\processed_compress';
+%%% For debug 
+% gui_data.image_path = 'C:\Users\benji\Documents\harini\cFOS_pPDH_quantify\pipeline_test\brain_region';
+% gui_data.save_path = 'C:\Users\benji\Documents\harini\cFOS_pPDH_quantify\pipeline_test\brain_region\slices';
 
 % Store guidata
 guidata(histology_toolbar_gui,gui_data);
@@ -86,7 +86,8 @@ gui_data = guidata(histology_toolbar_gui);
 gui_data.image_path = uigetdir([],'Select path with raw images');
 
 % Clear processed path (if there's one selected)
-gui_data.save_path = [];
+gui_data.save_path = [gui_data.image_path, '\slices'];
+mkdir(gui_data.save_path)
 
 % Store guidata
 guidata(histology_toolbar_gui,gui_data);

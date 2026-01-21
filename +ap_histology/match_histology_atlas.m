@@ -86,6 +86,7 @@ gui_data.ccf_cmap = ...
 
 % Set mode for atlas view (can be either TV, AV, or TV-AV)
 gui_data.atlas_mode = 'TV';
+colormap(gray);caxis([0,516]);
 
 % Create slice object and first slice point
 gui_data.atlas_slice_plot = surface(gui_data.atlas_ax,'EdgeColor','none'); % Slice on 3D atlas
@@ -252,7 +253,6 @@ gui_data = guidata(gui_fig);
 switch gui_data.atlas_mode
     case 'TV'
         atlas_slice = tv_slice;
-        colormap(gray);caxis([0,516]);
     case 'AV'
         av_boundaries = round(conv2(av_slice,ones(2)./4,'same')) ~= av_slice;
         atlas_slice = imoverlay(mat2gray(tv_slice,[0,516]),av_boundaries,'r');
